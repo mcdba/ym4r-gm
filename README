@@ -3,14 +3,12 @@
 This is the latest version of the YM4R/GM plugin for Rails (YM4RGMP4R?). Its aim is to facilitate the use of Google Maps from Rails application. It includes and enhances all the web application-related functionalities found in the YM4R gem as of version 0.4.1.
 
 ==Getting Started
-I present here the most common operations you would want to do with YM4R/GM. Read the rest of the documents if you want more details.
-
 In your controller, here is a typical initialization sequence in action +index+:
 	def index
 	  @map = GMap.new("map_div")
 	  @map.control_init(:large_map => true,:map_type => true)
 	  @map.center_zoom_init([75.5,-42.56],4)
-	  @map.overlay_init(GMarker.new([75.6,-42.467],:title => "Hello", :info_window => "Info! Info!"))
+	  @map.directions('route_div',[])
 	end
 
 Here I create a GMap (which will be placed inside a DIV of id +map_div+), add controls (large zoom slider and pan cross + map type selector), set the center and the zoom and add a marker. Of these 4 steps only the creation of the map and the setting of the center and the zoom are absolutely necessary.
@@ -385,6 +383,22 @@ You can pass options to the control_init as well. They are:
 
 So if you wanted the local search control to be at the bottom right of the map, 30 pixel in from the right and 20 pixels above the bottom it would look like this:
 @map.control_init(:large_map => true, :map_type => true, :local_search => true, :anchor => :bottom_right, :offset_width => 30, :offset_height => 20)
+
+===Google Directions
+	  @map = GMap.new("map_div")
+	  @map.control_init(:large_map => true,:map_type => true)
+	  @map.center_zoom_init([75.5,-42.56],4)
+          # address_from ='Москва Ленинский проспект 18'
+          # address_to   ='Москва мичуринский проспект 20'
+
+	  @map.directions('route_div',[address_from,address_to])
+in View 
+
+<%= Gmap.header %>
+<%= @map.to_html %>
+
+<div id='map_div' style='width:70%; height: 480px; float: left'></div>
+<div id='route_div' style='width:25%; height: 480px; float:right; font-size:10px'></div>
 
 ==Recent changes
 - Local Search overlay added. See above for implementation.
