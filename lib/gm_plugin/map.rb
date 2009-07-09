@@ -228,8 +228,6 @@ module Ym4r
         dir_points.each do |d|    
             @init << "dir_point_array.push('#{d}');"
         end
-        # Error Handling
-        @init << "GEvent.addListener(directions, 'error', handleErrors);"
         
         @init << "directions.loadFromWaypoints(dir_point_array);"
       end
